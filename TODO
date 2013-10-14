@@ -1,0 +1,15 @@
+# TODO
+In no particular order:
+
+* Debug toolbar Logo
+* Ability to do: 
+    
+    `{% if DEBUG %}
+        {% debug_toolbar %}
+     {% endif %}`
+* Model related information
+* Template compilation statistics
+* Ability to configure which panels are shown
+* Panel specific configuration
+* Insight into Depcache
+* IP based seccurity: Restrict debug toolbar toolbar to certain IP addresses
