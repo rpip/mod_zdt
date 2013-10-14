@@ -1,6 +1,7 @@
 # Zotonic Debug Toolbar - ZDT
 Debugging toolbar for Zotonic implemented as a module.
-Shamelessly ripped off from the Django Debug Toolbar.
+
+Shamelessly ripped off from the Django Debug Toolbar :-)
 
 Basically, what it does is to add a diagnostics toolbar to Zotonic applications.
 When enabled, it injects an html div to the right side of the web application
@@ -24,7 +25,7 @@ Insert `{% debug_toolbar %}` in the base template file(default is `base.html`).
 ## Screenshots
 ![screenshot-1.png](priv/screenshots/screenshot-1.png "Site configurations panel")
 
-![screenshot-2.png](priv/screenshots/screenshot-1.png "HTTP headers panel")
+![screenshot-2.png](priv/screenshots/screenshot-2.png "HTTP headers panel")
 
 ![screenshot-3.png](priv/screenshots/screenshot-3.png "Debug Toolbar")
 
@@ -32,8 +33,7 @@ Insert `{% debug_toolbar %}` in the base template file(default is `base.html`).
 ## Panels under construction
 
 - Templates
-- SQL profiler.
-  This should display the queries made by the current request, and profile them by execution time.
+- SQL profiler: displays the queries made by the current request, and profile them by execution time.
 - Events [observers and notifications]
 - System Info [server CPU usage]
 
