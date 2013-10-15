@@ -13,6 +13,6 @@
                     url :: string(),
                     has_content=false}).
 
--define(ZDTB_PANELS, [stats, configs, sql, http_vars, templates, modules, message_log, system]).
+-define(ZDTB_PANELS, [stats, configs, sql, http_vars, templates, modules, logs, system]).
 
 -define(R2P(Panel), lists:zip(record_info(fields, zdt_panel), tl(tuple_to_list(Panel)))).

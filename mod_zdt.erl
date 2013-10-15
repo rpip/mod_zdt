@@ -67,7 +67,7 @@ panel(system, Context) ->
 panel(stats, Context) ->
     stats_panel(Context);
 panel(_, _Context)->
-    #zdt_panel{}.
+    undefined.
 
 %% @doc Returns the rendered panel templates
 -spec build_panels(Context::#context{}) -> [#zdt_panel{}].
