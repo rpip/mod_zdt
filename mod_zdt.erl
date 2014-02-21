@@ -9,17 +9,19 @@
 -module(mod_zdt).
 -author('Mawuli Adzaku <mawuli@mawuli.me>').
 
-%& Module metadata
+%% Module metadata
 -mod_title("Zotonic Debug Toolbar").
 -mod_description("Frontend Debugging Panel").
 -mod_prio(500).
 -export([observe_admin_menu/3]).
-
 -include_lib("zotonic.hrl").
 -include_lib("modules/mod_admin/include/admin_menu.hrl").
 -include_lib("include/mod_zdt.hrl").
--compile([export_all]).
-%-export([panels/0, panel/2, build_panels/1]).
+-export([
+         panels/0, 
+         panel/2, 
+         build_panels/1
+        ]).
 
 observe_admin_menu(admin_menu, Acc, Context) ->
     [
@@ -48,6 +50,7 @@ modules(Context) ->
 -spec panels() -> [PanelName::atom()].
 panels()->
     ?ZDTB_PANELS.
+
 %% @doc Construct a debug panel
 -spec panel(PanelName::atom(), #context{}) -> #zdt_panel{}.
 panel(sql, Context) ->
@@ -63,9 +66,11 @@ panel(templates, Context) ->
 panel(modules, Context) ->
     modules_panel(Context);
 panel(system, Context) ->
-    system_panels(Context);
+    system_panel(Context);
 panel(stats, Context) ->
     stats_panel(Context);
+panel(dispatch, Context) ->
+    dispatch_panel(Context);
 panel(_, _Context)->
     undefined.
 
@@ -179,8 +184,14 @@ modules_panel(Context) ->
     #zdt_panel{content=Content, dom_id="zdtb-modules", nav_title="Modules", 
             nav_subtitle=ActiveModules, url="", has_content=true}.
 
-system_panels(Context) ->
+system_panel(Context) ->
     Cmd = "ps -e -o pcpu -o pid -o user -o args",
     Content = z_template:render("panels/system.tpl", [], Context),
     #zdt_panel{content=Content, dom_id="zdtb-system", nav_title="System",
            nav_subtitle="CPU usage", url="", has_content=true}.
+
+dispatch_panel(Context) ->
+    DispatchInfo = z_dispatcher:dispatchinfo(Context),
+    Content = z_template:render("panels/dispatch.tpl", [{dispatch_rules, DispatchInfo}], Context),
+    #zdt_panel{content=Content, dom_id="zdtb-dispatch", nav_title="URL dispatch", nav_subtitle="URL dispatch rules", 
+    url="", has_content=true}.
