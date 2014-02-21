@@ -18,13 +18,14 @@ application modules, Erlang runtime info, and other useful information.
 - Resource usage
 - Sql profiler
 - Process Info:
+- URL dispatch
 
 ## How to use
 Insert `{% debug_toolbar %}` in a template file, preferably the base template file(`base.tpl`).
 
 A better approach will be add a debug key to the site config: ``{debug, true}``, and then do:
 
-    ````erlang
+    ````
     {% if m.site.debug %}
         {% debug_toolbar %}
     {% endif %}
