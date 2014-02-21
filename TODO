@@ -2,11 +2,6 @@
 In no particular order:
 
 * Debug toolbar Logo
-* Ability to do: 
-    
-    `{% if DEBUG %}
-        {% debug_toolbar %}
-     {% endif %}`
 * Model related information
 * Template compilation statistics
 * Ability to configure which panels are shown
