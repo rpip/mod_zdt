@@ -23,13 +23,11 @@ application modules, Erlang runtime info, and other useful information.
 ## How to use
 Insert `{% debug_toolbar %}` in a template file, preferably the base template file(`base.tpl`).
 
-A better approach will be add a debug key to the site config: ``{debug, true}``, and then do:
+A better approach will be add a debug key to the site config: `{debug, true}`, and then add the following to `base.tpl`:
 
-    ````
     {% if m.site.debug %}
         {% debug_toolbar %}
     {% endif %}
-    ````
 
 ## Screenshots
 ![screenshot-1.png](priv/screenshots/screenshot-1.png "Site configurations panel")
