@@ -16,8 +16,7 @@
 vary(_Params, _Context) -> nocache.
 
 render(_Params, _Vars, Context) ->
-    %% ?LOG("Params = ~p ~n Vars = ~p", [Params, Vars]),
     ZDTVars = [{panels,  mod_zdt:build_panels(Context)}],
-    Html = z_template:render("toolbar.html", ZDTVars, Context),
+    Html = z_template:render("toolbar.tpl", ZDTVars, Context),
     {ok, Html}.
 
