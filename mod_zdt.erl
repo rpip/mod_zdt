@@ -191,7 +191,15 @@ system_panel(Context) ->
            nav_subtitle="CPU usage", url="", has_content=true}.
 
 dispatch_panel(Context) ->
-    DispatchInfo = z_dispatcher:dispatchinfo(Context),
-    Content = z_template:render("panels/dispatch.tpl", [{dispatch_rules, DispatchInfo}], Context),
+    {_name, _title, _, _, _, _, DispatchInfo} = z_dispatcher:dispatchinfo(Context),
+    DispatchRules = [
+                    [
+                     {name, Name}, 
+                     {path, Path}, 
+                     {resource, Resource}, 
+                     {args, Args}
+                    ] || {Name, Path, Resource, Args} <- DispatchInfo
+                   ],
+    Content = z_template:render("panels/dispatch.tpl", [{dispatch_rules, DispatchRules}], Context),
     #zdt_panel{content=Content, dom_id="zdtb-dispatch", nav_title="URL dispatch", nav_subtitle="URL dispatch rules", 
     url="", has_content=true}.
