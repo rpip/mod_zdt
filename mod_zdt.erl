@@ -146,7 +146,7 @@ stats_panel(Context) ->
     Statistics = [{memory, memory_statistics()}, 
                   {basic, basic_statistics()}, 
                   {mnesia, mnesia_statistics()}],
-    Vars = Statistics ++ [{sites, z_sites_manager:get_sites()}],
+    _Vars = Statistics ++ [{sites, z_sites_manager:get_sites()}],
     Content = z_template:render("panels/statistics.tpl", [{statistics, Statistics}], Context),    
     #zdt_panel{content=Content, dom_id="zdtb-stats", nav_title="Statistics", 
            nav_subtitle="System statistics", url="", has_content=true}.
@@ -167,9 +167,9 @@ http_vars_panel(Context) ->
     #zdt_panel{content=Content, dom_id="zdtb-req-vars", nav_title="HTTP Request",
       nav_subtitle="Request data/variables", url="", has_content=true}.
 
-templates_panel(Context) ->
-    Content = z_template:render("panels/templates.tpl", [], Context),
-    #zdt_panel{content=Content, dom_id="zdtb-tpl-vars", nav_title="Templates",
+templates_panel(_Context) ->
+    %% Content = z_template:render("panels/templates.tpl", [], Context),
+    #zdt_panel{content=undefined, dom_id="zdtb-tpl-vars", nav_title="Templates",
     nav_subtitle="Template files, variables etc", url="", has_content=true}.
 
 sql_panel(Context) ->
@@ -185,7 +185,7 @@ modules_panel(Context) ->
             nav_subtitle=ActiveModules, url="", has_content=true}.
 
 system_panel(Context) ->
-    Cmd = "ps -e -o pcpu -o pid -o user -o args",
+    _Cmd = "ps -e -o pcpu -o pid -o user -o args",
     Content = z_template:render("panels/system.tpl", [], Context),
     #zdt_panel{content=Content, dom_id="zdtb-system", nav_title="System",
            nav_subtitle="CPU usage", url="", has_content=true}.
