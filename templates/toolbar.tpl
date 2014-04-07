@@ -37,11 +37,15 @@
 			<div id="{{ panel.dom_id }}" class="panelContent">
 				<div class="djDebugPanelTitle">
 					<a href="" class="djDebugClose">Close</a>
-					<h3>{{ panel.title|escape }}</h3>
+					<h3>{{ panel.nav_title|escape }}</h3>
 				</div>
 				<div class="djDebugPanelContent">
 				    <div class="scroll">
-				        {{ panel.content|escape }}
+                                            {% ifequal panel.nav_title  "Templates" %}
+                                                    {% include "panels/templates.tpl" vars=vars %}
+                                            {% else %}
+				                    {{ panel.content }}
+                                            {% endifequal %}
 				    </div>
 				</div>
 			</div>
