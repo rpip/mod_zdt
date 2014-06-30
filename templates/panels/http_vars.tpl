@@ -73,6 +73,11 @@
 </tbody>
 </table>
 
-<br />
-<h3>Zotonic Context</h3>
-{{ z_context|pprint }}
+<h3>{_ Zotonic context _}</h3>
+<table>
+        <tbody>
+                <tr>
+                        <td>{{ z_context|pprint }}</td>
+                </tr>
+        </tbody>
+</table>
