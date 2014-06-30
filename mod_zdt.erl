@@ -13,10 +13,13 @@
 -mod_title("Zotonic Debug Toolbar").
 -mod_description("Frontend Debugging Panel").
 -mod_prio(500).
--export([observe_admin_menu/3]).
+
 -include_lib("zotonic.hrl").
 -include_lib("modules/mod_admin/include/admin_menu.hrl").
 -include_lib("include/mod_zdt.hrl").
+
+-export([observe_admin_menu/3]).
+
 -export([
          panels/0, 
          panel/2, 
