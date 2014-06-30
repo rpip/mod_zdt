@@ -189,7 +189,7 @@ modules_panel(Context) ->
 
 system_panel(Context) ->
     _Cmd = "ps -e -o pcpu -o pid -o user -o args",
-    Content = z_template:render("panels/system.tpl", [], Context),
+    Content = z_template:render("panels/system.tpl", [{env, env_to_proplists(os:getenv())}], Context),
     #zdt_panel{content=Content, dom_id="zdtb-system", nav_title="System",
            nav_subtitle="CPU usage", url="", has_content=true}.
 
@@ -206,3 +206,17 @@ dispatch_panel(Context) ->
     Content = z_template:render("panels/dispatch.tpl", [{dispatch_rules, DispatchRules}], Context),
     #zdt_panel{content=Content, dom_id="zdtb-dispatch", nav_title="URL dispatch", nav_subtitle="URL dispatch rules", 
     url="", has_content=true}.
+
+%% truns alist of strings into a a list of tuples
+-spec env_to_proplists([string()]) -> [tuple(string(), string())].
+env_to_proplists(Env) when is_list(Env) ->
+    [ to_tuple(X) || X <- Env].
+
+%% @doc convert a Key, value string into a tuple
+-spec to_tuple(string()) -> {string(), string()}.
+to_tuple(KVString) ->
+    Index = string:chr(KVString,$=),
+    Key = string:sub_string(KVString, 1, Index - 1),
+    Value = string:sub_string(KVString, Index + 1),
+    {Key, Value}.
+
