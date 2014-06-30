@@ -188,8 +188,12 @@ modules_panel(Context) ->
             nav_subtitle=ActiveModules, url="", has_content=true}.
 
 system_panel(Context) ->
-    _Cmd = "ps -e -o pcpu -o pid -o user -o args",
-    Content = z_template:render("panels/system.tpl", [{env, env_to_proplists(os:getenv())}], Context),
+    Cmd = "ps -e -o pcpu -o pid -o user -o args",
+    %% split output into lines, using \n
+    [_Head | OSProcs ] = string:tokens(os:cmd(Cmd), "\n"),
+    OSProcs1 = [proc_to_tuple(X) || X <- OSProcs],
+    Env = env_to_proplists(os:getenv()),
+    Content = z_template:render("panels/system.tpl", [{env, Env}, {os_procs, OSProcs1}], Context),
     #zdt_panel{content=Content, dom_id="zdtb-system", nav_title="System",
            nav_subtitle="CPU usage", url="", has_content=true}.
 
@@ -220,3 +224,7 @@ to_tuple(KVString) ->
     Value = string:sub_string(KVString, Index + 1),
     {Key, Value}.
 
+
+proc_to_tuple(Proc) ->
+    [Cpu, Pid, User | Args ] = (string:tokens(Proc, "  ")),
+    {Cpu, Pid, User, Args}.
