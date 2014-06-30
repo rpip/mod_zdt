@@ -14,7 +14,7 @@
                                 <td>{{ rule.name }}</td>
                                 <td>{{ rule.path }}</td>
                                 <td>{{ rule.resource }}</td>
-                                <td>{{ rule.args }}</td>
+                                <td>{{ rule.args|pprint }}</td>
                         </tr>
                 {% endfor %}
         </tbody>
