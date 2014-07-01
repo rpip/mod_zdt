@@ -47,6 +47,12 @@ A better approach will be add a debug key to the site config: `{debug, true}`, a
 ## TODO
 See the TODO file
 
+
+## Credits
+
+Credit goes to the Django Debug Toolbar authors, especially for the
+frontend component of this module.
+
 ## Contributing
 
 Issues, forks, and pull requests are welcome!
