@@ -21,5 +21,13 @@ render(_Params, Vars, Context) ->
                {vars, Vars1},
                {panels,  mod_zdt:build_panels(Context)}
               ],
-    Html = z_template:render("toolbar.tpl", ZDTVars, Context),
+    Peer = m_req:get(peer, Context),
+    io:format("PEER: ~p ~n", [Peer]),
+    IsAllowed = mod_zdt:is_address_allowed(Peer, Context),
+    Html = if
+               IsAllowed ->
+                   z_template:render("toolbar.tpl", ZDTVars, Context);
+               true ->
+                   <<"">>
+           end,                
     {ok, Html}.
