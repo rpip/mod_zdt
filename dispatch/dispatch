@@ -1,4 +1,0 @@
-%% -*- mode: erlang -*-
-[
- {admin_zdt, ["admin", "zdt"], controller_admin_zdt, []}
-].
