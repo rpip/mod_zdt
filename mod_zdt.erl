@@ -151,41 +151,83 @@ stats_panel(Context) ->
                   {mnesia, mnesia_statistics()}],
     _Vars = Statistics ++ [{sites, z_sites_manager:get_sites()}],
     Content = z_template:render("panels/statistics.tpl", [{statistics, Statistics}], Context),    
-    #zdt_panel{content=Content, dom_id="zdtb-stats", nav_title="Statistics", 
-           nav_subtitle="System statistics", url="", has_content=true}.
+    #zdt_panel{
+       content=Content,
+       dom_id="zdtb-stats",
+       nav_title="Statistics", 
+       nav_subtitle="System statistics",
+       url="",
+       has_content=true
+      }.
 
 message_log_panel(Context) ->
     Content = z_template:render("panels/message_log.tpl", [], Context),
     [{LogCount}] = z_db:q("select count(*) from log", Context),
-    #zdt_panel{content=Content, dom_id="zdtb-logs", nav_title="Message Log", 
-        nav_subtitle=erlang:integer_to_list(LogCount) ++ " messages", url="", has_content=true}.
+    #zdt_panel{
+       content=Content,
+       dom_id="zdtb-logs",
+       nav_title="Message Log", 
+       nav_subtitle=erlang:integer_to_list(LogCount) ++ " messages",
+       url="",
+       has_content=true
+      }.
 
 configs_panel(Context) ->
     Content = z_template:render("panels/configs.tpl", [], Context),
-    #zdt_panel{content=Content, dom_id="zdtb-configs", nav_title="Configs",
-    nav_subtitle="Configurations", url="", has_content=true}.
+    #zdt_panel{
+       content=Content,
+       dom_id="zdtb-configs",
+       nav_title="Configs",
+       nav_subtitle="Configurations",
+       url="",
+       has_content=true
+      }.
 
 http_vars_panel(Context) ->
     Content = z_template:render("panels/http_vars.tpl", [{z_context, Context}], Context),
-    #zdt_panel{content=Content, dom_id="zdtb-req-vars", nav_title="HTTP Request",
-      nav_subtitle="Request data/variables", url="", has_content=true}.
+    #zdt_panel{
+       content=Content,
+       dom_id="zdtb-req-vars",
+       nav_title="HTTP Request",
+       nav_subtitle="Request data/variables",
+       url="",
+       has_content=true
+      }.
 
 templates_panel(_Context) ->
     %% Content = z_template:render("panels/templates.tpl", [], Context),
-    #zdt_panel{content=undefined, dom_id="zdtb-tpl-vars", nav_title="Templates",
-    nav_subtitle="Template files, variables etc", url="", has_content=true}.
+    #zdt_panel{
+       dom_id="zdtb-tpl-vars",
+       nav_title="Templates",
+       nav_subtitle="Template files, variables etc",
+       url="",
+       has_content=true
+      }.
 
 sql_panel(Context) ->
     Content = z_template:render("panels/sql.tpl", [], Context),
-    #zdt_panel{content=Content, dom_id="zdtb-sql", nav_title="SQL", nav_subtitle="SQL queries", 
-     url="", has_content=true}.
+    #zdt_panel{
+       content=Content,
+       dom_id="zdtb-sql",
+       nav_title="SQL",
+       nav_subtitle="SQL queries", 
+       url="",
+       has_content=true
+      }.
 
 modules_panel(Context) ->
     Modules = modules(Context),
-    ActiveModules = integer_to_list(length(z_module_manager:active(Context))) ++ " active modules",
+    NumOfActiveModules = length(z_module_manager:active(Context)),
+    ActiveModules =  integer_to_list(NumOfActiveModules) ++ " active modules",
     Content = z_template:render("panels/modules.tpl", Modules, Context),
-    #zdt_panel{content=Content, dom_id="zdtb-modules", nav_title="Modules", 
-            nav_subtitle=ActiveModules, url="", has_content=true}.
+    #zdt_panel{
+       content=Content,
+       dom_id="zdtb-modules",
+       nav_title="Modules", 
+       nav_subtitle=ActiveModules,
+       url="",
+       has_content=true
+      }.
 
 system_panel(Context) ->
     Cmd = "ps -e -o pcpu -o pid -o user -o args",
@@ -193,9 +235,16 @@ system_panel(Context) ->
     [_Head | OSProcs ] = string:tokens(os:cmd(Cmd), "\n"),
     OSProcs1 = [proc_to_tuple(X) || X <- OSProcs],
     Env = env_to_proplists(os:getenv()),
-    Content = z_template:render("panels/system.tpl", [{env, Env}, {os_procs, OSProcs1}], Context),
-    #zdt_panel{content=Content, dom_id="zdtb-system", nav_title="System",
-           nav_subtitle="CPU usage", url="", has_content=true}.
+    Content = z_template:render("panels/system.tpl",
+                                [{env, Env}, {os_procs, OSProcs1}], Context),
+    #zdt_panel{
+       content=Content,
+       dom_id="zdtb-system",
+       nav_title="System",
+       nav_subtitle="CPU usage",
+       url="", 
+       has_content=true
+      }.
 
 dispatch_panel(Context) ->
     {_name, _title, _, _, _, _, DispatchInfo} = z_dispatcher:dispatchinfo(Context),
@@ -207,9 +256,16 @@ dispatch_panel(Context) ->
                      {args, Args}
                     ] || {Name, Path, Resource, Args} <- DispatchInfo
                    ],
-    Content = z_template:render("panels/dispatch.tpl", [{dispatch_rules, DispatchRules}], Context),
-    #zdt_panel{content=Content, dom_id="zdtb-dispatch", nav_title="URL dispatch", nav_subtitle="URL dispatch rules", 
-    url="", has_content=true}.
+    Content = z_template:render("panels/dispatch.tpl",
+                                [{dispatch_rules, DispatchRules}],Context),
+    #zdt_panel{
+       content=Content,
+       dom_id="zdtb-dispatch",
+       nav_title="URL dispatch",
+       nav_subtitle="URL dispatch rules", 
+       url="",
+       has_content=true
+      }.
 
 %% truns alist of strings into a a list of tuples
 -spec env_to_proplists([string()]) -> [tuple(string(), string())].

@@ -6,12 +6,13 @@
 %%% @end
 %%% Created : 27 Sep 2013 by Mawuli Adzaku <mawuli@mawuli.me>
 %%%-------------------------------------------------------------------
--record(zdt_panel, {
-          content :: string(), 
+-record(zdt_panel, 
+        {
+          content = undefined :: string(), 
           dom_id :: integer(), 
           nav_title :: string(), 
           nav_subtitle :: string(), 
-          url :: string(),
+          url = "" :: string(),
           has_content=false
          }).
 
