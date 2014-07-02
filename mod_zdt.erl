@@ -24,7 +24,8 @@
          build_panels/1,
          get_config/2,
          is_address_allowed/2,
-         get_site_templates/1]).
+         get_site_templates/1,
+        is_panel_visible/2]).
 
     
 modules(Context) ->
@@ -70,9 +71,10 @@ panel(_, _Context)->
 %% @doc Returns the rendered panel templates
 -spec build_panels(Context::#context{}) -> [#zdt_panel{}].
 build_panels(Context) ->
-    Panels = lists:map(fun(P) -> 
-                               ?RecordToProplists(zdt_panel, panel(P, Context)) 
-                       end, ?ZDTB_PANELS),
+    Panels = [
+              ?RecordToProplists(zdt_panel, panel(Panel, Context)) 
+              || Panel <- ?ZDTB_PANELS, is_panel_visible(Panel, Context)
+             ],
     Panels.
 
 %%=======================================================================================
@@ -186,7 +188,7 @@ http_vars_panel(Context) ->
 
 %% This function is not used, but rather 
 %% see templates/toolbar.tpl for how the templates panel works
-templates_panel(Context) ->
+templates_panel(_Context) ->
     #zdt_panel{
        dom_id="zdtb-tpl-templates",
        nav_title="Templates",
@@ -296,7 +298,7 @@ get_config(Key, Context) when is_atom(Key) ->
 -spec is_address_allowed(string(), #context{}) -> true | false.    
 is_address_allowed(Address, Context) ->
     case get_config(address, Context) of
-        { ok, Addresses } ->
+        {ok, Addresses} ->
             if
                 Addresses == <<"*">> ->
                     true;
@@ -306,6 +308,29 @@ is_address_allowed(Address, Context) ->
                                             z_string:split(Addresses1, ",")),
                     AddressList1 = lists:umerge(AddressList, ?DEFAULT_ADDRESSES),
                     lists:member(Address, AddressList1)
+            end;
+        undefined ->
+            false
+    end.
+
+%% @doc Returns true if the panel has been configured to be publicly visible.
+%% Otherwise, false
+-spec is_panel_visible(Panel, Context) -> true | false when
+      Panel :: atom(),
+      Context :: #context{}.
+is_panel_visible(Panel, Context) when is_atom(Panel) ->
+    case get_config(panels, Context) of
+        {ok, Panels} ->
+            if
+                Panels == <<"*">> ->
+                    true;
+                 true ->
+                    Panels1 = binary_to_list(Panels),
+                    PanelList = lists:map(fun(X) -> z_string:trim(X) end,
+                                            z_string:split(Panels1, ",")),
+                    AllPanels = lists:map(fun(X) -> atom_to_list(X) end, ?ZDTB_PANELS),
+                    PanelList1 = lists:subtract(AllPanels, PanelList),
+                    lists:member(atom_to_list(Panel), PanelList1)
             end;
         undefined ->
             false

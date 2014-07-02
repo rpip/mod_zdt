@@ -31,7 +31,8 @@
                       sql, 
                       http_vars, 
                       templates, 
-                      modules, logs, 
+                      modules,
+                      logs, 
                       system
                      ]).
 
