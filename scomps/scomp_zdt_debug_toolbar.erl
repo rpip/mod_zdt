@@ -16,15 +16,17 @@
 vary(_Params, _Context) -> nocache.
 
 render(_Params, Vars, Context) ->
-    Vars1 = [{K, io_lib:format("~p", [V])} || {K, V} <- Vars],
-    ZDTVars = [
-               {vars, Vars1},
-               {panels,  mod_zdt:build_panels(Context)}
-              ],
     Peer = m_req:get(peer, Context),
     IsAllowed = mod_zdt:is_address_allowed(Peer, Context),
     Html = if
                IsAllowed ->
+                   Vars1 = [{K, io_lib:format("~p", [V])} || {K, V} <- Vars],
+                   ZDTVars = [
+                              {vars, Vars1},
+                              {panels,  mod_zdt:build_panels(Context)},
+                              {zdt_templates, mod_zdt:get_site_templates(Context)}
+                             ],
+                   
                    z_template:render("toolbar.tpl", ZDTVars, Context);
                true ->
                    <<"">>

@@ -41,8 +41,11 @@
 				</div>
 				<div class="djDebugPanelContent">
 				    <div class="scroll">
+                                            {# work around to get #}
+                                            {# current templates's #}
+                                            {# context variables #}
                                             {% ifequal panel.nav_title  "Templates" %}
-                                                    {% include "panels/templates.tpl" vars=vars %}
+                                                    {% include "panels/templates.tpl" vars=vars zdt_templates=zdt_templates %}
                                             {% else %}
 				                    {{ panel.content }}
                                             {% endifequal %}
