@@ -1,0 +1,4 @@
+%% -*- mode: erlang -*-
+[
+ { zdt_template_source, ["__debug__", "template_source", template], controller_api, [{module, "zdt"}, {method, "templates"}] }
+].
