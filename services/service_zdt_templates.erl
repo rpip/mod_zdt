@@ -18,10 +18,7 @@
 
 process_get(_ReqData, Context) ->
     File = z_context:get_q(template, Context),
-    SiteDir = z_path:site_dir(Context),
-    Filepath = filename:join(SiteDir, filename:join("templates", File)),
-    io:format("FILE: ~p", [Filepath]),
-    {ok, Source} = file:read_file(filename:join(SiteDir, File)),
+    {ok, Source} = file:read_file(File),
     Vars = [
             {template_name, File},
             {source, Source}
