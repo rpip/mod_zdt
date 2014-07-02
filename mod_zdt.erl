@@ -23,7 +23,8 @@
          panel/2, 
          build_panels/1,
          get_config/2,
-         is_address_allowed/2]).
+         is_address_allowed/2,
+         get_site_templates/1]).
 
     
 modules(Context) ->
@@ -70,7 +71,7 @@ panel(_, _Context)->
 -spec build_panels(Context::#context{}) -> [#zdt_panel{}].
 build_panels(Context) ->
     Panels = lists:map(fun(P) -> 
-                               ?R2P(panel(P, Context)) 
+                               ?RecordToProplists(zdt_panel, panel(P, Context)) 
                        end, ?ZDTB_PANELS),
     Panels.
 
@@ -183,10 +184,11 @@ http_vars_panel(Context) ->
        has_content=true
       }.
 
-templates_panel(_Context) ->
-    %% Content = z_template:render("panels/templates.tpl", [], Context),
+%% This function is not used, but rather 
+%% see templates/toolbar.tpl for how the templates panel works
+templates_panel(Context) ->
     #zdt_panel{
-       dom_id="zdtb-tpl-vars",
+       dom_id="zdtb-tpl-templates",
        nav_title="Templates",
        nav_subtitle="Template files, variables etc",
        url="",
@@ -280,11 +282,11 @@ proc_to_tuple(Proc) ->
     {Cpu, Pid, User, Args}.
 
 
--spec get_config(Key, Ctx) -> undefined | {ok, binary()} when
+-spec get_config(Key, Context) -> undefined | {ok, binary()} when
       Key :: atom(),
-      Ctx :: #context{}.
-get_config(Key, Ctx) when is_atom(Key) ->
-    case m_config:get(?MODULE, Key, Ctx) of
+      Context :: #context{}.
+get_config(Key, Context) when is_atom(Key) ->
+    case m_config:get(?MODULE, Key, Context) of
         undefined ->
             undefined;
         Props ->
@@ -292,8 +294,8 @@ get_config(Key, Ctx) when is_atom(Key) ->
     end.
 
 -spec is_address_allowed(string(), #context{}) -> true | false.    
-is_address_allowed(Address, Ctx) ->
-    case get_config(address, Ctx) of
+is_address_allowed(Address, Context) ->
+    case get_config(address, Context) of
         { ok, Addresses } ->
             if
                 Addresses == <<"*">> ->
@@ -308,3 +310,23 @@ is_address_allowed(Address, Ctx) ->
         undefined ->
             false
     end.
+
+get_templates(Context) ->
+    SiteDir = z_path:site_dir(Context),
+    TemplatesDir = filename:join(SiteDir, "templates"),
+    filelib:fold_files(TemplatesDir, ".*", true,
+                       fun(File, Acc) -> [File|Acc] end, []). 
+
+%% @doc Return's list of site's templates.
+get_site_templates(Context) ->
+    Templates = get_templates(Context),
+    [ 
+      ?RecordToProplists(
+         zdt_template,
+         #zdt_template
+         {
+           name=filename:basename(Filepath),
+           origin_name=Filepath
+         })                   
+      || Filepath <- Templates
+    ].
