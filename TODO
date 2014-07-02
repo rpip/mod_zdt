@@ -1,11 +1,12 @@
 # TODO
 In no particular order:
 
-* Debug toolbar Logo
+* Debug toolbar Logo [DONE]
 * Model related information
 * Template compilation statistics
   See related question on forum: http://groups.google.com/group/zotonic-users/t/fa53c7b0db2596b
 * Ability to configure which panels are shown
-* Panel specific configuration
+* Site templates [DONE]
 * Insight into Depcache
-* IP based security: Restrict debug toolbar toolbar to certain IP addresses
+* IP based security: Restrict debug toolbar toolbar to certain IP addresses [DONE]
+
