@@ -16,6 +16,12 @@
           has_content=false
          }).
 
+-record(zdt_template,
+        {
+          name="" :: string(),
+          origin_name="" :: string()          
+         }).
+
 -define(DEFAULT_ADDRESSES, ["127.0.0.1", "::1", "localhost"]).
 
 -define(ZDTB_PANELS, [
@@ -29,4 +35,4 @@
                       system
                      ]).
 
--define(R2P(Panel), lists:zip(record_info(fields, zdt_panel), tl(tuple_to_list(Panel)))).
+-define(RecordToProplists(Name, Record), lists:zip(record_info(fields, Name), tl(tuple_to_list(Record)))).
