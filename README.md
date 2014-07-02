@@ -29,6 +29,20 @@ A better approach will be add a debug key to the site config: `{debug, true}`, a
         {% debug_toolbar %}
     {% endif %}
 
+## Configs
+
+* address: Peer addresses to display the debug toolbar to.
+
+  Example: 127.0.0.1, ::1, localhost, 23.45.87.7
+
+  Use "*" to enable all access
+
+* panels: Panels to display
+
+  Example: message_log, system, modules. sql
+
+  To enable all, leave the panels config blank or set "*"
+
 ## Screenshots
 ![screenshot-1.png](priv/screenshots/screenshot-1.png "Site configurations panel")
 
