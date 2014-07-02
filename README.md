@@ -60,10 +60,8 @@ OR in your Erlang shell: m_config:set(mod_zdt, address, "78.23.455.1, 23.45.87.7
 
 ## Panels under construction
 
-- Templates
 - SQL profiler: displays the queries made by the current request, and profile them by execution time.
 - Events [observers and notifications]
-- System Info [server CPU usage]
 
 ## TODO
 See the TODO file
