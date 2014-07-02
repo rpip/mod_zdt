@@ -31,6 +31,10 @@ A better approach will be add a debug key to the site config: `{debug, true}`, a
 
 ## Configs
 
+The following configs keys can be set via the Zotonic site dashboard's
+configuration page. The module should be, mod_zdt and the key, value
+pairs as follows:
+
 * address: Peer addresses to display the debug toolbar to.
 
   Example: 127.0.0.1, ::1, localhost, 23.45.87.7
@@ -42,6 +46,9 @@ A better approach will be add a debug key to the site config: `{debug, true}`, a
   Example: message_log, system, modules. sql
 
   To enable all, leave the panels config blank or set "*"
+
+
+OR in your Erlang shell: m_config:set(mod_zdt, address, "78.23.455.1, 23.45.87.7", Ctx).
 
 ## Screenshots
 ![screenshot-1.png](priv/screenshots/screenshot-1.png "Site configurations panel")
