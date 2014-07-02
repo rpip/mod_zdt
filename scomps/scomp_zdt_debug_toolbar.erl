@@ -22,7 +22,6 @@ render(_Params, Vars, Context) ->
                {panels,  mod_zdt:build_panels(Context)}
               ],
     Peer = m_req:get(peer, Context),
-    io:format("PEER: ~p ~n", [Peer]),
     IsAllowed = mod_zdt:is_address_allowed(Peer, Context),
     Html = if
                IsAllowed ->

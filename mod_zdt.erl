@@ -18,23 +18,12 @@
 -include_lib("modules/mod_admin/include/admin_menu.hrl").
 -include_lib("include/mod_zdt.hrl").
 
--export([observe_admin_menu/3]).
-
 -export([
          panels/0, 
          panel/2, 
-         build_panels/1
-        ]).
-
-observe_admin_menu(admin_menu, Acc, Context) ->
-    [
-     #menu_item{id=admin_zdt,
-                parent=admin_modules,
-                label=?__("Debug Toolbar", Context),
-                url={admin_zdt},
-                visiblecheck={acl, use, ?MODULE}}
-     |Acc].
-
+         build_panels/1,
+         get_config/2,
+         is_address_allowed/2]).
 
     
 modules(Context) ->
@@ -267,6 +256,11 @@ dispatch_panel(Context) ->
        has_content=true
       }.
 
+
+%%% ==================================================================
+%%% Zotonic Debug toolbar
+%%% ==================================================================
+
 %% truns alist of strings into a a list of tuples
 -spec env_to_proplists([string()]) -> [tuple(string(), string())].
 env_to_proplists(Env) when is_list(Env) ->
@@ -284,3 +278,33 @@ to_tuple(KVString) ->
 proc_to_tuple(Proc) ->
     [Cpu, Pid, User | Args ] = (string:tokens(Proc, "  ")),
     {Cpu, Pid, User, Args}.
+
+
+-spec get_config(Key, Ctx) -> undefined | {ok, binary()} when
+      Key :: atom(),
+      Ctx :: #context{}.
+get_config(Key, Ctx) when is_atom(Key) ->
+    case m_config:get(?MODULE, Key, Ctx) of
+        undefined ->
+            undefined;
+        Props ->
+            {ok, proplists:get_value(value, Props)}
+    end.
+
+-spec is_address_allowed(string(), #context{}) -> true | false.    
+is_address_allowed(Address, Ctx) ->
+    case get_config(address, Ctx) of
+        { ok, Addresses } ->
+            if
+                Addresses == <<"*">> ->
+                    true;
+                true ->
+                    Addresses1 = binary_to_list(Addresses),
+                    AddressList = lists:map(fun(X) -> z_string:trim(X) end,
+                                            z_string:split(Addresses1, ",")),
+                    AddressList1 = lists:umerge(AddressList, ?DEFAULT_ADDRESSES),
+                    lists:member(Address, AddressList1)
+            end;
+        undefined ->
+            false
+    end.

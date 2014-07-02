@@ -16,6 +16,8 @@
           has_content=false
          }).
 
+-define(DEFAULT_ADDRESSES, ["127.0.0.1", "::1", "localhost"]).
+
 -define(ZDTB_PANELS, [
                       stats, 
                       configs, 
