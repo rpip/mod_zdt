@@ -45,6 +45,7 @@ pairs as follows:
 
   Example: message_log, system, modules. sql
 
+  Panels names: stats, configs, dispatch, sql, http_vars, templates, modules, logs, system
   To enable all, leave the panels config blank or set "*"
 
 
