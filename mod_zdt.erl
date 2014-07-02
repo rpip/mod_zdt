@@ -188,11 +188,12 @@ http_vars_panel(Context) ->
 
 %% This function is not used, but rather 
 %% see templates/toolbar.tpl for how the templates panel works
-templates_panel(_Context) ->
+templates_panel(Context) ->
+    NumberOfTemplates = integer_to_list(length(get_site_templates(Context))),
     #zdt_panel{
        dom_id="zdtb-tpl-templates",
-       nav_title="Templates",
-       nav_subtitle="Template files, variables etc",
+       nav_title= "Templates",
+       nav_subtitle=NumberOfTemplates ++ " Template files, variables etc",
        url="",
        has_content=true
       }.
