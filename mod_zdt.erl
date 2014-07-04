@@ -138,18 +138,18 @@ mnesia_statistics() ->
 %% Panels
 %%================================================================================================
 stats_panel(Context) ->
-    Statistics = [{memory, memory_statistics()}, 
+    Statistics = [
+                  {memory, memory_statistics()}, 
                   {basic, basic_statistics()}, 
-                  {mnesia, mnesia_statistics()}],
+                  {mnesia, mnesia_statistics()}
+                 ],
     _Vars = Statistics ++ [{sites, z_sites_manager:get_sites()}],
     Content = z_template:render("panels/statistics.tpl", [{statistics, Statistics}], Context),    
     #zdt_panel{
        content=Content,
        dom_id="zdtb-stats",
        nav_title="Statistics", 
-       nav_subtitle="System statistics",
-       url="",
-       has_content=true
+       nav_subtitle="System statistics"
       }.
 
 message_log_panel(Context) ->
@@ -159,9 +159,7 @@ message_log_panel(Context) ->
        content=Content,
        dom_id="zdtb-logs",
        nav_title="Message Log", 
-       nav_subtitle=erlang:integer_to_list(LogCount) ++ " messages",
-       url="",
-       has_content=true
+       nav_subtitle=erlang:integer_to_list(LogCount) ++ " messages"
       }.
 
 configs_panel(Context) ->
@@ -170,20 +168,17 @@ configs_panel(Context) ->
        content=Content,
        dom_id="zdtb-configs",
        nav_title="Configs",
-       nav_subtitle="Configurations",
-       url="",
-       has_content=true
+       nav_subtitle="Configurations"
       }.
 
 http_vars_panel(Context) ->
-    Content = z_template:render("panels/http_vars.tpl", [{z_context, Context}], Context),
+    Content = z_template:render("panels/http_vars.tpl",
+                                [{z_context, Context}], Context),
     #zdt_panel{
        content=Content,
        dom_id="zdtb-req-vars",
        nav_title="HTTP Request",
-       nav_subtitle="Request data/variables",
-       url="",
-       has_content=true
+       nav_subtitle="Request data/variables"
       }.
 
 %% This function is not used, but rather 
@@ -193,9 +188,7 @@ templates_panel(Context) ->
     #zdt_panel{
        dom_id="zdtb-tpl-templates",
        nav_title= "Templates",
-       nav_subtitle=NumberOfTemplates ++ " Template files, variables etc",
-       url="",
-       has_content=true
+       nav_subtitle=NumberOfTemplates ++ " Template files, variables etc"
       }.
 
 sql_panel(Context) ->
@@ -204,9 +197,7 @@ sql_panel(Context) ->
        content=Content,
        dom_id="zdtb-sql",
        nav_title="SQL",
-       nav_subtitle="SQL queries", 
-       url="",
-       has_content=true
+       nav_subtitle="SQL queries"
       }.
 
 modules_panel(Context) ->
@@ -218,9 +209,7 @@ modules_panel(Context) ->
        content=Content,
        dom_id="zdtb-modules",
        nav_title="Modules", 
-       nav_subtitle=ActiveModules,
-       url="",
-       has_content=true
+       nav_subtitle=ActiveModules
       }.
 
 system_panel(Context) ->
@@ -235,9 +224,7 @@ system_panel(Context) ->
        content=Content,
        dom_id="zdtb-system",
        nav_title="System",
-       nav_subtitle="CPU usage",
-       url="", 
-       has_content=true
+       nav_subtitle="CPU usage"
       }.
 
 dispatch_panel(Context) ->
@@ -256,9 +243,7 @@ dispatch_panel(Context) ->
        content=Content,
        dom_id="zdtb-dispatch",
        nav_title="URL dispatch",
-       nav_subtitle="URL dispatch rules", 
-       url="",
-       has_content=true
+       nav_subtitle="URL dispatch rules"
       }.
 
 

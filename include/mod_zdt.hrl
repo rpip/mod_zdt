@@ -13,7 +13,7 @@
           nav_title :: string(), 
           nav_subtitle :: string(), 
           url = "" :: string(),
-          has_content=false
+          has_content=true
          }).
 
 -record(zdt_template,
